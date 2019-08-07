@@ -22,9 +22,6 @@
 # Derived files
 lex.yy.c
 
-# Corefiles
-core
-
 # Dependency files - anywhere
 *.dep
 
