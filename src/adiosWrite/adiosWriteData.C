@@ -123,7 +123,7 @@ Foam::label Foam::functionObjects::adiosWrite::writeFields
     const wordList sortedNames = mesh.sortedNames();
     for (const word& objName : sortedNames)
     {
-        const regIOobject& obj = *(mesh.find(objName).object());
+        const regIOobject& obj = *(mesh.find(objName).val());
 
         const word& name = obj.name();
         const word& type = obj.type();
