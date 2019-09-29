@@ -191,9 +191,10 @@ Foam::label Foam::functionObjects::adiosWrite::writeClouds
 
     forAllConstIters(cloudObjects, iter)
     {
-        if (!regCtrl.acceptCloudObject(*(iter.val())))
+        const cloud* cldPtr = iter.val();
+        if (!regCtrl.acceptCloudObject(*cldPtr))
         {
-            pruned.insert(iter->name());
+            pruned.insert(cldPtr->name());
         }
     }
 

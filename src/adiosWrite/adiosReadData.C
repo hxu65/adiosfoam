@@ -135,7 +135,7 @@ Foam::functionObjects::adiosWrite::readData(const fileName& bpFile)
 
                     forAllConstIters(obr, iter)
                     {
-                        Info<< iter.key() << " " << iter->type() << nl;
+                        Info<< iter.key() << " " << (*iter)->type() << nl;
                     }
                 }
 
