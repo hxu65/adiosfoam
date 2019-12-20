@@ -24,5 +24,8 @@ adiosData
 "/writeControl"     clockTime;
 "/writeInterval"    86400;
 
+// Alternative
+// "/writeControl"     none;
+
 
 // ************************************************************************* //

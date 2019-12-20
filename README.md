@@ -7,12 +7,11 @@
   construction of meshes and fields, fields are overwritten with their
   values read from the adios file.
 * Supports multiple regions, multiple clouds per region.
-* Restarting with mesh changing is not yet implemented.
-* Restarting with clouds needs more work.
+* Restarting with mesh changing is not yet fully implemented.
 
 ---
 
-2019-04-10
+2019-12-20
 
 ---
 
