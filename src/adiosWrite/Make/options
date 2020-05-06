@@ -1,5 +1,10 @@
 sinclude $(GENERAL_RULES)/ADIOS2
 
+/* Default is PROJECT target */
+ifeq (,$(CMAKE_INSTALL_PREFIX))
+    CMAKE_INSTALL_PREFIX := $(dir $(FOAM_LIBBIN))
+endif
+
 EXE_INC = \
     $(PFLAGS) $(PINC) $(ADIOS_FLAGS) \
     ${ADIOS_EXTRA_COMP} \

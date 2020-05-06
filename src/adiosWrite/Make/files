@@ -2,4 +2,4 @@ adiosReadData.C
 adiosWrite.C
 adiosWriteData.C
 
-LIB = $(FOAM_LIBBIN)/libadiosFunctionObjects
+LIB = $(CMAKE_INSTALL_PREFIX)/lib/libadiosFunctionObjects

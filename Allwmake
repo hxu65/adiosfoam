@@ -1,7 +1,14 @@
 #!/bin/sh
-cd ${0%/*} || exit 1    # Run from this directory
+cd "${0%/*}" || exit                                # Run from this directory
 targetType=libso
-. $WM_PROJECT_DIR/wmake/scripts/AllwmakeParseArguments
+. ${WM_PROJECT_DIR:?}/wmake/scripts/wmake.cmake-args
+. ${WM_PROJECT_DIR:?}/wmake/scripts/AllwmakeParseArguments
+# -----------------------------------------------------------------------------
+
+if [ -n "$CMAKE_INSTALL_PREFIX" ]
+then
+    export CMAKE_INSTALL_PREFIX
+fi
 
 #------------------------------------------------------------------------------
 echo "========================================"
