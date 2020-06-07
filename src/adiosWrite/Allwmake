@@ -1,30 +1,11 @@
 #!/bin/sh
 cd "${0%/*}" || exit                                # Run from this directory
-. ${WM_PROJECT_DIR:?}/wmake/scripts/wmake.cmake-args
 . ${WM_PROJECT_DIR:?}/wmake/scripts/AllwmakeParseArguments
 . ${WM_PROJECT_DIR:?}/wmake/scripts/have_adios2
-# -----------------------------------------------------------------------------
-
-if [ -n "$CMAKE_INSTALL_PREFIX" ]
-then
-    export CMAKE_INSTALL_PREFIX
-fi
-
 #------------------------------------------------------------------------------
 
 if have_adios2
 then
-    # Extra compile/link options
-    adiosFoam=$(cd ../adiosFoam && pwd -P)
-
-    export ADIOS_EXTRA_COMP="-I$adiosFoam/lnInclude"
-    export ADIOS_EXTRA_LINK='-L$(FOAM_USER_LIBBIN) -ladiosFoam'
-
-    if [ -n "$CMAKE_INSTALL_PREFIX" ]
-    then
-        export ADIOS_EXTRA_LINK='-L$(CMAKE_INSTALL_PREFIX)/lib -ladiosFoam'
-    fi
-
     wmake libso
 else
     echo "==> skip adiosFoam library"

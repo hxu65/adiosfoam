@@ -16,4 +16,4 @@ write/adiosCoreWriteCloud.C
 
 time/adiosTime.C
 
-LIB = $(CMAKE_INSTALL_PREFIX)/lib/libadiosFoam
+LIB = $(FOAM_MODULE_LIBBIN)/libadiosFoam
