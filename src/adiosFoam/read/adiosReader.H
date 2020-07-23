@@ -5,7 +5,7 @@
     \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
-    Copyright (C) 2016-2019 OpenCFD Ltd.
+    Copyright (C) 2016-2020 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -49,6 +49,7 @@ SourceFiles
 #include "fvMesh.H"
 #include "HashSet.H"
 #include "Ostream.H"
+#include <memory>
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -71,10 +72,10 @@ private:
         adios2::ADIOS& adios_;
 
         //- ADIOS input IO definitions - mirror of InquireIO("read")
-        mutable autoPtr<adios2::IO> readIOPtr_;
+        mutable std::unique_ptr<adios2::IO> readIOPtr_;
 
         //- ADIOS file read - mirror of ...
-        mutable autoPtr<adios2::Engine> readFilePtr_;
+        mutable std::unique_ptr<adios2::Engine> readFilePtr_;
 
 
     // Data populated by the scan method
@@ -225,11 +226,11 @@ public:
 
 
         //- Extract cloud information as a registry
-        autoPtr<objectRegistry>
+        std::unique_ptr<objectRegistry>
         getCloud(const word& regName, const word& cloudName);
 
         //- Extract cloud information as a registry
-        autoPtr<objectRegistry>
+        std::unique_ptr<objectRegistry>
         getCloud(const adiosFoam::cloudInfo& cldInfo);
 
 

@@ -37,7 +37,7 @@ License
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
-Foam::autoPtr<Foam::objectRegistry>
+std::unique_ptr<Foam::objectRegistry>
 Foam::adiosFoam::adiosReader::getCloud
 (
     const word& regName,
@@ -47,18 +47,20 @@ Foam::adiosFoam::adiosReader::getCloud
     // Use dummy Time for objectRegistry
     autoPtr<Time> dummyTimePtr(Time::New());
 
-    auto obrPtr = autoPtr<objectRegistry>::New
+    std::unique_ptr<objectRegistry> obrPtr
     (
-        IOobject
+        new objectRegistry
         (
-            cloudName,
-            *dummyTimePtr,
-            IOobject::NO_READ,
-            IOobject::NO_WRITE,
-            false
+            IOobject
+            (
+                cloudName,
+                *dummyTimePtr,
+                IOobject::NO_READ,
+                IOobject::NO_WRITE,
+                false
+            )
         )
     );
-
     auto& obr = *obrPtr;
 
     const fileName prefixCloud(adiosFoam::cloudPath(regName, cloudName));
@@ -107,7 +109,7 @@ Foam::adiosFoam::adiosReader::getCloud
 }
 
 
-Foam::autoPtr<Foam::objectRegistry>
+std::unique_ptr<Foam::objectRegistry>
 Foam::adiosFoam::adiosReader::getCloud
 (
     const adiosFoam::cloudInfo& cldInfo

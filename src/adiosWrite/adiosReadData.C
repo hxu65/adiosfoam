@@ -5,7 +5,7 @@
     \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
-    Copyright (C) 2016-2019 OpenCFD Ltd.
+    Copyright (C) 2016-2020 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -120,14 +120,11 @@ Foam::functionObjects::adiosWrite::readData(const fileName& bpFile)
                 }
 
 
-                autoPtr<objectRegistry> obrPtr = reader.getCloud(cldInfo);
-
+                auto obrPtr = reader.getCloud(cldInfo);
                 if (!obrPtr)
                 {
                     continue;
                 }
-
-
                 const objectRegistry& obr = *obrPtr;
 
                 if (adiosCore::debug & 2)

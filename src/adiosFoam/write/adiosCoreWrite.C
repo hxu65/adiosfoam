@@ -5,7 +5,7 @@
     \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
-    Copyright (C) 2016-2019 OpenCFD Ltd.
+    Copyright (C) 2016-2020 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -134,7 +134,7 @@ bool Foam::adiosFoam::adiosCoreWrite::open(const fileName& dataFile)
         Foam::mkDir(path);
     }
 
-    if (writeFilePtr_.valid())
+    if (writeFilePtr_)
     {
         writeFilePtr_->Close();
         writeFilePtr_ = nullptr;
@@ -147,7 +147,7 @@ bool Foam::adiosFoam::adiosCoreWrite::open(const fileName& dataFile)
 
     // Any error handling?
 
-    return writeFilePtr_.valid();
+    return bool(writeFilePtr_);
 }
 
 
@@ -156,7 +156,7 @@ void Foam::adiosFoam::adiosCoreWrite::close()
     // MPI_Barrier(MPI_COMM_WORLD);
 
     // Close the file
-    if (writeFilePtr_.valid())
+    if (writeFilePtr_)
     {
         DebugInFunction<< "Close write" << endl;
 
@@ -170,7 +170,7 @@ bool Foam::adiosFoam::adiosCoreWrite::beginWrite()
 {
     return
     (
-        writeFilePtr_.valid()
+        writeFilePtr_
     &&  (adios2::StepStatus::OK == writeFilePtr_->BeginStep())
     );
 }
@@ -178,7 +178,7 @@ bool Foam::adiosFoam::adiosCoreWrite::beginWrite()
 
 bool Foam::adiosFoam::adiosCoreWrite::endWrite()
 {
-    if (writeFilePtr_.valid())
+    if (writeFilePtr_)
     {
         writeFilePtr_->EndStep();
         return true;
@@ -193,7 +193,7 @@ void Foam::adiosFoam::adiosCoreWrite::reset()
     // Remove all variable definitions and attributes
     // to enable a new list of definitions in case the mesh changes
 
-    if (writeIOPtr_.valid())
+    if (writeIOPtr_)
     {
         writeIOPtr_->RemoveAllAttributes();
         writeIOPtr_->RemoveAllVariables();

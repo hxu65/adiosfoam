@@ -5,7 +5,7 @@
     \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
-    Copyright (C) 2016-2019 OpenCFD Ltd.
+    Copyright (C) 2016-2020 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -42,12 +42,12 @@ SourceFiles
 #ifndef adiosCoreWrite_H
 #define adiosCoreWrite_H
 
-#include "autoPtr.H"
 #include "adiosCore.H"
 #include "adiosFoamCloudInfo.H"
 #include "adiosFoamFieldInfo.H"
 #include "dictionary.H"
 #include "GeometricField.H"
+#include <memory>
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -78,10 +78,10 @@ protected:
         std::unique_ptr<adios2::ADIOS> adiosPtr_;
 
         //- ADIOS output IO definitions - mirror of InquireIO("write")
-        autoPtr<adios2::IO> writeIOPtr_;
+        std::unique_ptr<adios2::IO> writeIOPtr_;
 
         //- ADIOS file write - mirror of ...
-        autoPtr<adios2::Engine> writeFilePtr_;
+        std::unique_ptr<adios2::Engine> writeFilePtr_;
 
 
 private:
