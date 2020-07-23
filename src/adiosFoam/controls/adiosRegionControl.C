@@ -5,7 +5,7 @@
     \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
-    Copyright (C) 2016-2019 OpenCFD Ltd.
+    Copyright (C) 2016-2020 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -191,7 +191,7 @@ bool Foam::adiosFoam::regionControl::acceptFieldObject
             (autoWrite() && obj.writeOpt() == IOobject::AUTO_WRITE)
          || requestedFields_.match(name)
         )
-     && !name.endsWith("_0")  // ignore _0 fields
+     && !name.ends_with("_0")  // ignore _0 fields
     );
 }
 

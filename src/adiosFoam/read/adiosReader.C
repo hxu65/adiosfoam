@@ -168,7 +168,7 @@ void Foam::adiosFoam::adiosReader::scan(bool verbose)
             {
                 const fileName varName(iter->first);
 
-                if (varName.endsWith("_0"))
+                if (varName.ends_with("_0"))
                 {
                     // The "_0" fields are addressed separately
                     continue;

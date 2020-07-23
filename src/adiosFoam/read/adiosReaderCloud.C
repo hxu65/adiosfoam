@@ -5,7 +5,7 @@
     \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
-    Copyright (C) 2016-2019 OpenCFD Ltd.
+    Copyright (C) 2016-2020 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -69,7 +69,7 @@ Foam::adiosFoam::adiosReader::getCloud
     {
         const fileName varName(iter->first);
 
-        if (varName.endsWith("_0"))
+        if (varName.ends_with("_0"))
         {
             // The "_0" fields are addressed separately
             continue;
