@@ -5,7 +5,7 @@
     \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
-    Copyright (C) 2016-2019 OpenCFD Ltd.
+    Copyright (C) 2016-2020 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -61,7 +61,8 @@ extern const string foamAttribute;
 extern const string timeAttribute;
 
 
-//- Search a given directory for ADIOS time files
+//- Search a given directory for ADIOS time directories,
+//- but first checks for .bp files (ADIOS-2.4.0 and earlier)
 instantList findTimes
 (
     const fileName& directory,

@@ -5,7 +5,7 @@
     \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
-    Copyright (C) 2019 OpenCFD Ltd.
+    Copyright (C) 2019-2020 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -26,6 +26,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "adiosFoam.H"
+#include "fileOperation.H"
 #include "OSspecific.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
@@ -33,6 +34,69 @@ License
 const Foam::word Foam::adiosFoam::defaultDirectory("adiosData");
 const Foam::string Foam::adiosFoam::foamAttribute("/openfoam");
 const Foam::string Foam::adiosFoam::timeAttribute("/time");
+
+
+// * * * * * * * * * * * * * * * Local Functions * * * * * * * * * * * * * * //
+
+// adios-2.4.0 and earlier:
+// - <time>.bp files and <time>.bp.dir directories
+//
+// later:
+// - <time> directories
+
+namespace Foam
+{
+
+static Foam::instantList findTimes_bp(const fileName& directory)
+{
+    // Read directory entries into a list
+    const fileNameList dirEntries(Foam::readDir(directory, fileName::FILE, false));
+
+    label nTimes = 0;
+
+    // Check for .bp files
+    for (const fileName& dirEntry : dirEntries)
+    {
+        if (dirEntry.hasExt("bp"))
+        {
+            ++nTimes;
+        }
+    }
+
+    if (!nTimes)
+    {
+        return instantList();
+    }
+
+    instantList times(nTimes);
+    nTimes = 0;
+
+    // Parse directory entry into time value/name
+    for (const fileName& dirEntry : dirEntries)
+    {
+        if (dirEntry.hasExt("bp"))
+        {
+            const word dirValue(dirEntry.lessExt());
+
+            if (readScalar(dirValue, times[nTimes].value()))
+            {
+                times[nTimes].name() = word(dirEntry);
+                ++nTimes;
+            }
+        }
+    }
+
+    times.resize(nTimes);
+
+    if (nTimes > 1)
+    {
+        std::sort(times.begin(), times.end(), instant::less());
+    }
+
+    return times;
+}
+
+} // End namespace Foam
 
 
 // * * * * * * * * * * * * * * * Global Functions  * * * * * * * * * * * * * //
@@ -43,60 +107,19 @@ Foam::instantList Foam::adiosFoam::findTimes
     const word& constantName
 )
 {
-    // Read directory entries into a list
-    fileNameList dirEntries(readDir(directory, fileName::FILE, false));
+    instantList times(findTimes_bp(directory));
 
-    // Initialise instant list
-    instantList Times(dirEntries.size() + 1);
-    label nTimes = 0;
-
-    // Check for "constant" - not yet useful
-    bool haveConstant = false;
-    for (const fileName& dirEntry : dirEntries)
+    if (times.size())
     {
-        if (dirEntry.hasExt("bp") && dirEntry.lessExt() == constantName)
-        {
-            Times[nTimes].value() = 0;
-            Times[nTimes].name()  = word(dirEntry);
-            ++nTimes;
-            haveConstant = true;
-            break;
-        }
+        // Older format with .bp files
+        return times;
     }
 
-    // Read and parse all the entries in the directory
-    for (const fileName& dirEntry : dirEntries)
-    {
-        if (dirEntry.hasExt("bp"))
-        {
-            scalar val;
-            const word dirValue(dirEntry.lessExt());
+    // Newer format, uses directory names only
 
-            if (readScalar(dirValue, val))
-            {
-                Times[nTimes].value() = val;
-                Times[nTimes].name()  = word(dirEntry);
-                ++nTimes;
-            }
-        }
-    }
+    fileNameList dirEntries(Foam::readDir(directory, fileName::DIRECTORY));
 
-    // Reset the length of the times list
-    Times.setSize(nTimes);
-
-    if (haveConstant)
-    {
-        if (nTimes > 2)
-        {
-            std::sort(&Times[1], Times.end(), instant::less());
-        }
-    }
-    else if (nTimes > 1)
-    {
-        std::sort(&Times[0], Times.end(), instant::less());
-    }
-
-    return Times;
+    return fileOperation::sortTimes(dirEntries, constantName);
 }
 
 

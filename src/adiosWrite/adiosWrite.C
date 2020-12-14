@@ -5,7 +5,7 @@
     \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
-    Copyright (C) 2016-2019 OpenCFD Ltd.
+    Copyright (C) 2016-2020 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -73,7 +73,14 @@ bool Foam::functionObjects::adiosWrite::restart()
 
     // Restart from a specified time, or from latest
 
-    const instantList adiosTimes = adiosFoam::findTimes(dataDir_);
+    instantList adiosTimes;
+
+    if (Pstream::master())
+    {
+        adiosTimes = adiosFoam::findTimes(dataDir_);
+    }
+    Pstream::scatter(adiosTimes);
+
 
     restartIndex_ = -1;
     if (restartType_ == restartTime)
