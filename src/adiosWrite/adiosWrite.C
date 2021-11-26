@@ -5,7 +5,7 @@
     \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
-    Copyright (C) 2016-2020 OpenCFD Ltd.
+    Copyright (C) 2016-2021 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -37,7 +37,7 @@ namespace Foam
 namespace functionObjects
 {
     defineTypeNameAndDebug(adiosWrite, 0);
-    addToRunTimeSelectionTable
+    addRemovableToRunTimeSelectionTable
     (
         functionObject,
         adiosWrite,
