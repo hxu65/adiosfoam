@@ -2,12 +2,17 @@
 cd "${0%/*}" || exit                                # Run from this directory
 targetType=libso
 . "${WM_PROJECT_DIR:?}"/wmake/scripts/AllwmakeParseArguments
-
 #------------------------------------------------------------------------------
 # Build into FOAM_USER_{APPBIN,LIBBIN} unless otherwise specified with
 # -prefix or FOAM_MODULE_{APPBIN,LIBBIN} env varables
 #------------------------------------------------------------------------------
 moduleName="adiosFoam"
+
+if [ "$FOAM_MODULE_PREFIX" = false ]
+then
+    echo "Compilation of $moduleName is disabled (prefix=false)"
+    exit 0
+fi
 
 echo "========================================"
 date "+%Y-%m-%d %H:%M:%S %z" 2>/dev/null || echo "date is unknown"
