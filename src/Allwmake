@@ -6,6 +6,7 @@ cd "${0%/*}" || exit                                # Run from this directory
 
 if have_adios2
 then
+    echo_adios2
     adiosFoam/Allwmake
     adiosWrite/Allwmake
 else
