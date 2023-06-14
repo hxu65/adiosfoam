@@ -69,28 +69,13 @@ Foam::adiosFoam::adiosCoreWrite::adiosCoreWrite(const dictionary& dict)
     // Read dictionary
     read(dict);
 
-
-    if (Pstream::parRun())
+    if (UPstream::parRun())
     {
-        adiosPtr_.reset
-        (
-            new adios2::ADIOS
-            (
-                MPI_COMM_WORLD,
-                dict.getOrDefault("adiosDebug", true)
-            )
-        );
+        adiosPtr_.reset(new adios2::ADIOS(MPI_COMM_WORLD));
     }
     else
     {
-        adiosPtr_.reset
-        (
-            new adios2::ADIOS
-            (
-                MPI_COMM_SELF,
-                dict.getOrDefault("adiosDebug", true)
-            )
-        );
+        adiosPtr_.reset(new adios2::ADIOS());
     }
 
     // Use default Engine "BPFile"
