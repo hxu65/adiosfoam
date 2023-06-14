@@ -34,8 +34,8 @@ SourceFiles
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef adiosFoamRegionControl_H
-#define adiosFoamRegionControl_H
+#ifndef Foam_adiosFoamRegionControl_H
+#define Foam_adiosFoamRegionControl_H
 
 #include "adiosTime.H"
 #include "polyMesh.H"
@@ -109,10 +109,10 @@ public:
 
     // Constructors
 
-        //- Construct null
+        //- Default construct
         regionControl();
 
-        //- Construct null with specified region name
+        //- Default construct with specified region name
         explicit regionControl(const word& regionName);
 
         //- Construct from dictionary information
@@ -125,32 +125,17 @@ public:
 
     // Private Member Functions
 
-        //- If auto-write is in effect
-        const word& name() const
-        {
-            return name_;
-        }
-
+        //- Name of the region
+        const word& name() const noexcept { return name_; }
 
         //- Time of the topology status at the last mesh change
-        const scalar& topoTime() const
-        {
-            return topoTime_;
-        }
-
+        scalar topoTime() const noexcept { return topoTime_; }
 
         //- Time of the point status at the last mesh change
-        const scalar& pointTime() const
-        {
-            return pointTime_;
-        }
-
+        scalar pointTime() const noexcept { return pointTime_; }
 
         //- If auto-write is in effect
-        bool autoWrite() const
-        {
-            return !explicitWrite_;
-        }
+        bool autoWrite() const noexcept { return !explicitWrite_; }
 
 
         //- Accept cloud based on its name
@@ -166,14 +151,10 @@ public:
 
 
         //- Path name for the region
-        inline fileName regionPath() const
-        {
-            return adiosFoam::regionPath(name_);
-        }
-
+        fileName regionPath() const { return adiosFoam::regionPath(name_); }
 
         //- Simple text representation for output purposes
-        inline word info() const
+        word info() const
         {
             return name_;
         }

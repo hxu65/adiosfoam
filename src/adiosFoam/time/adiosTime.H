@@ -34,8 +34,8 @@ SourceFiles
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef adiosTime_H
-#define adiosTime_H
+#ifndef Foam_adiosTime_H
+#define Foam_adiosTime_H
 
 #include "adiosCore.H"
 #include "Enum.H"
@@ -87,47 +87,29 @@ public:
 
     // Constructors
 
-        //- Construct null
+        //- Default construct
         adiosTime();
 
         //- Copy values from TimeState
-        adiosTime(const TimeState& t);
+        explicit adiosTime(const TimeState& t);
 
         //- Construct by extracting values from adios reader
-        adiosTime(adiosReader& r);
+        explicit adiosTime(adiosReader& r);
 
 
     // Member Functions
 
-        inline const label& timeIndex() const
-        {
-            return index_;
-        }
-
-
-        inline const scalar& timeValue() const
-        {
-            return value_;
-        }
-
-
-        inline const scalar& deltaT() const
-        {
-            return deltaT_;
-        }
-
-
-        inline const scalar& deltaT0() const
-        {
-            return deltaT0_;
-        }
+        label timeIndex() const noexcept { return index_; }
+        scalar timeValue() const noexcept { return value_; }
+        scalar deltaT() const noexcept { return deltaT_; }
+        scalar deltaT0() const noexcept { return deltaT0_; }
 
 
         //- Has valid content?
-        explicit operator bool() const;
+        bool good() const noexcept { return index_ > 0; }
 
         //- Has valid content?
-        bool valid() const;
+        explicit operator bool() const noexcept { return index_ > 0; }
 };
 
 

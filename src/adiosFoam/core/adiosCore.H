@@ -34,8 +34,8 @@ SourceFiles
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef adiosCore_H
-#define adiosCore_H
+#ifndef Foam_adiosCore_H
+#define Foam_adiosCore_H
 
 #include "adios2.h"
 #include "adiosFoam.H"
@@ -76,7 +76,7 @@ public:
 
     // Constructors
 
-        //- Construct null
+        //- Default construct
         adiosCore();
 
 
@@ -88,7 +88,7 @@ public:
 
         //- Buffer for reading/writing (streamed) content to/from ADIOS files.
         //  Also used when reading/writing dissimilar content.
-        inline static DynamicList<char>& transferBuffer()
+        static DynamicList<char>& transferBuffer() noexcept
         {
             return transfer_;
         }

@@ -5,7 +5,7 @@
     \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
-    Copyright (C) 2016-2020 OpenCFD Ltd.
+    Copyright (C) 2016-2023 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -229,11 +229,13 @@ Foam::wordList Foam::adiosFoam::adiosCoreWrite::writeCloudFields
     // Thus need to resolve names between all processors.
 
     wordList fieldNames(obrTmp.names<IOField<Type>>());
+    #if (OPENFOAM < 2212)
     Pstream::combineGather(fieldNames, ListOps::uniqueEqOp<word>());
     Pstream::combineScatter(fieldNames);
-
-    // Consistent order on all processors
-    Foam::sort(fieldNames);
+    #else
+    Pstream::combineReduce(fieldNames, ListOps::uniqueEqOp<word>());
+    #endif
+    Foam::sort(fieldNames);  // Consistent order
 
     for (const word& fieldName : fieldNames)
     {
@@ -242,7 +244,7 @@ Foam::wordList Foam::adiosFoam::adiosCoreWrite::writeCloudFields
 
         putListVariable(cloudVarName/fieldName, values);
 
-        if (Pstream::master())
+        if (UPstream::master())
         {
             putAttribute(cloudVarName/fieldName/"class", clsName);
         }
@@ -284,7 +286,7 @@ bool Foam::adiosFoam::adiosCoreWrite::writeGeometricField
     const auto& bmesh  = field.mesh().boundary();
     const label nPatches = nNonProcessor(bmesh);
 
-    if (Pstream::master())
+    if (UPstream::master())
     {
         // Attributes are global - only passed via the master
         putAttribute(varName / "class", field.type());
@@ -295,7 +297,7 @@ bool Foam::adiosFoam::adiosCoreWrite::writeGeometricField
     writeField(varName, field.internalField());
 
     // Independent of storage, provide a quick lookup of field patch types
-    if (Pstream::master())
+    if (UPstream::master())
     {
         // Attributes are global - only passed via the master
         // - Only consider 'real' (non-processor) patches
@@ -354,7 +356,7 @@ bool Foam::adiosFoam::adiosCoreWrite::writeInternalField
         )
     );
 
-    if (Pstream::master())
+    if (UPstream::master())
     {
         // Attributes are global - only passed via the master
         putAttribute(varName / "class", field.type());

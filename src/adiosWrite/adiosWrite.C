@@ -5,7 +5,7 @@
     \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
-    Copyright (C) 2016-2021 OpenCFD Ltd.
+    Copyright (C) 2016-2023 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -75,11 +75,15 @@ bool Foam::functionObjects::adiosWrite::restart()
 
     instantList adiosTimes;
 
-    if (Pstream::master())
+    if (UPstream::master())
     {
         adiosTimes = adiosFoam::findTimes(dataDir_);
     }
-    Pstream::scatter(adiosTimes);
+    #if (OPENFOAM < 2206)
+    Pstream::scatter(adiosTimes);  // Older version for broadcast
+    #else
+    Pstream::broadcast(adiosTimes);
+    #endif
 
 
     restartIndex_ = -1;
@@ -129,7 +133,7 @@ bool Foam::functionObjects::adiosWrite::restart()
 
     adiosFoam::adiosTime bpTime = readData(adiosTimes[restartIndex_]);
 
-    if (bpTime.valid())
+    if (bpTime.good())
     {
         Time& t = const_cast<Time&>(time());
         t.setTime(bpTime.timeValue(), bpTime.timeIndex());
@@ -404,7 +408,7 @@ bool Foam::functionObjects::adiosWrite::open(const Time& t)
     // Create output directory if initially non-existent
     static bool checkdir = true;
 
-    if (checkdir && Pstream::master() && !isDir(dataDir_))
+    if (checkdir && UPstream::master() && !isDir(dataDir_))
     {
         mkDir(dataDir_);
     }

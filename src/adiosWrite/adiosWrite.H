@@ -47,8 +47,8 @@ SourceFiles
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef adiosWrite_H
-#define adiosWrite_H
+#ifndef Foam_adiosWrite_H
+#define Foam_adiosWrite_H
 
 #include "adiosCoreWrite.H"
 #include "adiosReader.H"
@@ -125,15 +125,6 @@ class adiosWrite
         SLList<adiosFoam::regionControl> regions_;
 
 
-    // Private Member Functions
-
-        //- Disallow default bitwise copy construct
-        adiosWrite(const adiosWrite&) = delete;
-
-        //- Disallow default bitwise assignment
-        void operator=(const adiosWrite&) = delete;
-
-
 protected:
 
     // Protected Member Functions
@@ -184,6 +175,13 @@ protected:
 
 
 public:
+
+    //- No copy construct
+    adiosWrite(const adiosWrite&) = delete;
+
+    //- No copy assignment
+    void operator=(const adiosWrite&) = delete;
+
 
     //- Runtime type information
     TypeName("adiosWrite");

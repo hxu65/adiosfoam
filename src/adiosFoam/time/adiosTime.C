@@ -94,18 +94,4 @@ Foam::adiosFoam::adiosTime::adiosTime(adiosReader& r)
 }
 
 
-// * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
-
-Foam::adiosFoam::adiosTime::operator bool() const
-{
-    return index_ > 0;
-}
-
-
-bool Foam::adiosFoam::adiosTime::valid() const
-{
-    return index_ > 0;
-}
-
-
 // ************************************************************************* //

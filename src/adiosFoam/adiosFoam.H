@@ -34,8 +34,8 @@ SourceFiles
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef adiosFoam_H
-#define adiosFoam_H
+#ifndef Foam_adiosFoam_H
+#define Foam_adiosFoam_H
 
 #include "fileName.H"
 #include "instantList.H"

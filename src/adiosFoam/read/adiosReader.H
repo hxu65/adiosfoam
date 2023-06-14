@@ -37,8 +37,8 @@ SourceFiles
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef adiosReader_H
-#define adiosReader_H
+#ifndef Foam_adiosReader_H
+#define Foam_adiosReader_H
 
 #include "adiosCore.H"
 #include "adiosTime.H"
@@ -185,7 +185,7 @@ public:
 
     // Constructors
 
-        //- Null constructor
+        //- Construct with reference to ADIOS backend
         explicit adiosReader(adios2::ADIOS& adios);
 
         //- Open specified filename and scan variables

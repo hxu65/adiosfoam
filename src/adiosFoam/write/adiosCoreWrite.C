@@ -5,7 +5,7 @@
     \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
-    Copyright (C) 2016-2020 OpenCFD Ltd.
+    Copyright (C) 2016-2023 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -64,7 +64,7 @@ Foam::adiosFoam::adiosCoreWrite::adiosCoreWrite(const dictionary& dict)
     writeMethod_(),
     writeParams_()
 {
-    Info<< "adiosWrite (" << Pstream::nProcs() << " procs)"  << endl;
+    Info<< "adiosWrite (" << UPstream::nProcs() << " procs)"  << endl;
 
     // Read dictionary
     read(dict);
@@ -114,7 +114,7 @@ bool Foam::adiosFoam::adiosCoreWrite::open(const fileName& dataFile)
     DebugInFunction<< "Open write: " << dataFile << endl;
 
     const fileName path = dataFile.path();
-    if (Pstream::master() && !isDir(path))
+    if (UPstream::master() && !isDir(path))
     {
         Foam::mkDir(path);
     }
@@ -229,7 +229,7 @@ void Foam::adiosFoam::adiosCoreWrite::putBaseAttributes()
     putIntAttribute
     (
         adiosFoam::foamAttribute / "nProcs",
-        Pstream::nProcs()
+        UPstream::nProcs()
     );
 }
 

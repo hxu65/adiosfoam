@@ -5,7 +5,7 @@
     \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
-    Copyright (C) 2016-2019 OpenCFD Ltd.
+    Copyright (C) 2016-2023 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -32,7 +32,7 @@ License
 
 void Foam::adiosFoam::adiosCoreWrite::putPatchAttributes(const polyMesh& mesh)
 {
-    if (Pstream::master())
+    if (UPstream::master())
     {
         const fileName varPath(adiosFoam::regionPath(mesh.name()));
 

@@ -34,8 +34,8 @@ SourceFiles
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef adiosFoamCloudInfo_H
-#define adiosFoamCloudInfo_H
+#ifndef Foam_adiosFoamCloudInfo_H
+#define Foam_adiosFoamCloudInfo_H
 
 #include "adiosFoam.H"
 #include "cloud.H"
@@ -68,7 +68,7 @@ public:
 
     // Constructors
 
-        //- Construct null
+        //- Default construct
         cloudInfo() = default;
 
         //- Construct from components
@@ -112,49 +112,28 @@ public:
     // Member Functions
 
         //- The cloud name
-        inline const word& name() const
-        {
-            return *this;
-        }
+        const word& name() const noexcept { return *this; }
 
         //- Write access to the cloud name
-        inline word& name()
-        {
-            return *this;
-        }
+        word& name() noexcept { return *this; }
 
         //- The region name
-        inline const word& regionName() const
-        {
-            return region_;
-        }
+        const word& regionName() const noexcept { return region_; }
 
         //- Write access to the region name
-        inline word& regionName()
-        {
-            return region_;
-        }
+        word& regionName() noexcept { return region_; }
 
         //- Type of the cloud
-        inline const word& type() const
-        {
-            return type_;
-        }
+        const word& type() const noexcept { return type_; }
 
-        //- Write access to the type
-        inline word& type()
-        {
-            return type_;
-        }
+        //- Write access to the cloud type
+        word& type() noexcept { return type_; }
 
         //- The variable path
-        inline fileName path() const
-        {
-            return adiosFoam::cloudPath(region_);
-        }
+        fileName path() const { return adiosFoam::cloudPath(region_); }
 
         //- The full variable name
-        inline fileName fullName() const
+        fileName fullName() const
         {
             return adiosFoam::cloudPath(region_, *this);
         }

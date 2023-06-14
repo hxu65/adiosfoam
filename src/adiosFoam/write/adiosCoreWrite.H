@@ -39,8 +39,8 @@ SourceFiles
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef adiosCoreWrite_H
-#define adiosCoreWrite_H
+#ifndef Foam_adiosCoreWrite_H
+#define Foam_adiosCoreWrite_H
 
 #include "adiosCore.H"
 #include "adiosFoamCloudInfo.H"
@@ -103,12 +103,6 @@ private:
 
         //- Read the dictionary setup
         void read(const dictionary& dict);
-
-        //- Disallow default bitwise copy construct
-        adiosCoreWrite(const adiosCoreWrite&) = delete;
-
-        //- Disallow default bitwise assignment
-        void operator=(const adiosCoreWrite&) = delete;
 
 
 protected:
@@ -342,6 +336,13 @@ protected:
 
 
 public:
+
+    //- No copy construct
+    adiosCoreWrite(const adiosCoreWrite&) = delete;
+
+    //- No copy assignment
+    void operator=(const adiosCoreWrite&) = delete;
+
 
     // Constructors
 

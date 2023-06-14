@@ -5,7 +5,7 @@
     \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
-    Copyright (C) 2016-2019 OpenCFD Ltd.
+    Copyright (C) 2016-2023 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -38,10 +38,10 @@ void Foam::adiosFoam::adiosCoreWrite::putLabelVariable
     using cmptType = label;
 
     const auto global =
-        static_cast<adios2::Dims::value_type>(Pstream::nProcs());
+        static_cast<adios2::Dims::value_type>(UPstream::nProcs());
 
     const auto offset =
-        static_cast<adios2::Dims::value_type>(Pstream::myProcNo());
+        static_cast<adios2::Dims::value_type>(UPstream::myProcNo());
 
 
     // Define and write

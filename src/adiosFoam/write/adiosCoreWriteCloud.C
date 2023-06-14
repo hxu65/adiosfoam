@@ -5,7 +5,7 @@
     \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
-    Copyright (C) 2016-2019 OpenCFD Ltd.
+    Copyright (C) 2016-2023 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -65,7 +65,7 @@ Foam::label Foam::adiosFoam::adiosCoreWrite::writeCloudRegistry
     // - class
     // - number of parcels (all processes) as an attribute
     //
-    if (Pstream::master())
+    if (UPstream::master())
     {
         putAttribute(varName/"class",         cInfo.type());
         putIntAttribute(varName/"nParcels",   nParcels);

@@ -34,8 +34,8 @@ SourceFiles
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef adiosFoamFieldInfo_H
-#define adiosFoamFieldInfo_H
+#ifndef Foam_adiosFoamFieldInfo_H
+#define Foam_adiosFoamFieldInfo_H
 
 #include "adiosFoam.H"
 #include "GeometricField.H"
@@ -68,7 +68,7 @@ public:
 
     // Constructors
 
-        //- Construct null
+        //- Default construct
         fieldInfo() = default;
 
         //- Construct from components
@@ -113,49 +113,28 @@ public:
     // Member Functions
 
         //- The field name
-        inline const word& name() const
-        {
-            return *this;
-        }
+        const word& name() const noexcept { return *this; }
 
         //- Write access to the field name
-        inline word& name()
-        {
-            return *this;
-        }
+        word& name() noexcept { return *this; }
 
         //- The region name
-        inline const word& regionName() const
-        {
-            return region_;
-        }
+        const word& regionName() const noexcept { return region_; }
 
         //- Write access to the region name
-        inline word& regionName()
-        {
-            return region_;
-        }
+        word& regionName() noexcept { return region_; }
 
         //- The class/type (eg, volScalarField)
-        inline const word& type() const
-        {
-            return type_;
-        }
+        const word& type() const noexcept { return type_; }
 
         //- Write access to the type
-        inline word& type()
-        {
-            return type_;
-        }
+        word& type() noexcept { return type_; }
 
         //- The variable path
-        inline fileName path() const
-        {
-            return adiosFoam::fieldPath(region_);
-        }
+        fileName path() const { return adiosFoam::fieldPath(region_); }
 
         //- The full variable name
-        inline fileName fullName() const
+        fileName fullName() const
         {
             return adiosFoam::fieldPath(region_, *this);
         }
@@ -166,9 +145,9 @@ public:
             os.beginBlock();
 
             os.writeEntry("name", fullName());
-            if (!type().empty())
+            if (!type_.empty())
             {
-                os.writeEntry("class", type());
+                os.writeEntry("class", type_);
             }
 
             os.endBlock();

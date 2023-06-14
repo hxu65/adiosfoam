@@ -5,7 +5,7 @@
     \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
-    Copyright (C) 2016-2019 OpenCFD Ltd.
+    Copyright (C) 2016-2023 OpenCFD Ltd.
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -48,7 +48,7 @@ void Foam::functionObjects::adiosWrite::writeData()
 
     adiosCoreWrite::beginWrite();       // Begin step
 
-    if (Pstream::master())
+    if (UPstream::master())
     {
         adiosCoreWrite::putBaseAttributes();
         adiosCoreWrite::putTimeAttributes(time());
@@ -92,7 +92,7 @@ void Foam::functionObjects::adiosWrite::writeData()
     }
 
 
-    if (Pstream::master())
+    if (UPstream::master())
     {
         // Region attributes
         putIntAttribute(adiosFoam::foamAttribute / "nRegions", regions_.size());
@@ -231,7 +231,7 @@ Foam::label Foam::functionObjects::adiosWrite::writeClouds
         obr.clear();
     }
 
-    if (Pstream::master())
+    if (UPstream::master())
     {
         const fileName varPath = regCtrl.regionPath();
 

@@ -119,7 +119,7 @@ void Foam::adiosFoam::regionControl::resetAll()
 
 Foam::adiosFoam::regionControl::regionControl()
 :
-    regionControl("")
+    regionControl(word::null)
 {}
 
 
