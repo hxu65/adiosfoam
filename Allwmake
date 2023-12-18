@@ -8,11 +8,12 @@ targetType=libso
 #------------------------------------------------------------------------------
 moduleName="adiosFoam"
 
-if [ "$FOAM_MODULE_PREFIX" = false ]
-then
-    echo "Compilation of $moduleName is disabled (prefix=false)"
+echo "========================================"
+case "$FOAM_MODULE_PREFIX" in
+(false | none)
+    echo "Compilation of $moduleName is disabled (prefix=${FOAM_MODULE_PREFIX})"
     exit 0
-fi
+esac
 
 echo "========================================"
 date "+%Y-%m-%d %H:%M:%S %z" 2>/dev/null || echo "date is unknown"
