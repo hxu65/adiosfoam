@@ -71,11 +71,11 @@ Foam::adiosFoam::adiosCoreWrite::adiosCoreWrite(const dictionary& dict)
 
     if (UPstream::parRun())
     {
-        adiosPtr_.reset(new adios2::ADIOS(MPI_COMM_WORLD));
+        adiosPtr_.reset(new adios2::ADIOS("adios.xml",MPI_COMM_WORLD));
     }
     else
     {
-        adiosPtr_.reset(new adios2::ADIOS());
+        adiosPtr_.reset(new adios2::ADIOS("adios.xml"));
     }
 
     // Use default Engine "BPFile"
